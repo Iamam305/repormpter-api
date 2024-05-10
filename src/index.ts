@@ -34,8 +34,8 @@ const app = new Elysia()
       }),
     }
   )
-  .use(rateLimit())
   .use(cors()) 
+  .use(rateLimit())
   .listen(3000);
 
 console.log(

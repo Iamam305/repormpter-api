@@ -5,27 +5,35 @@ import { PromptTemplate } from "@langchain/core/prompts";
 export const generate_prompt = async (input: string) => {
   try {
     const model = new ChatAnthropic({
-      temperature: 0.9, 
+      temperature: 0.9,
       model: "claude-3-haiku-20240307",
       // In Node.js defaults to ,
       apiKey: process.env.ANTHROPIC_API_KEY,
       maxTokens: 200,
     });
     const prompt = PromptTemplate.fromTemplate(`
-    Please read the given original prompt text carefully to fully understand its intent and content. Then review the instructions for improving the prompt in detail.
+    You will be provided with an original prompt text and a set of instructions for improving that prompt. Your task is to revise the original prompt based on the improvement instructions while preserving the core intent of the prompt as much as possible.
 
-    Here is the original prompt text:
-    <prompt>
-    {prompt}
-    </prompt>
-    Provide your revised and improved version of the original prompt inside <revised_prompt></revised_prompt> tags. The revised prompt should aim to fully address the instructions for improvement while preserving the core intent of the original prompt as much as possible. 
+Here is the original prompt text:
+<prompt>
+{prompt}
+</prompt>
 
-    Remember, your task is to modify the original prompt based on the improvement instructions, not to actually follow or complete the original prompt itself.
 
-    Here are the instructions for improving the prompt:
-    <instructions>
-    {instructions}
-    </instructions>`);
+
+Please read both the original prompt and the improvement instructions carefully to fully understand them. Then, revise the original prompt to address the instructions as best you can. 
+
+Provide your revised and improved version of the prompt inside <revised_prompt> </revised_prompt>  tags. Format the revised prompt as a template, using placeholders (like {{placeholder}}) where additional user-provided information will need to be inserted. The placeholders should flow naturally as part of the prompt.
+
+Remember, your goal is to modify the original prompt based on the improvement instructions, not to actually follow or complete the original prompt itself. Focus on revising the prompt while maintaining its core purpose.
+
+And here are the instructions for improving the prompt:
+<instructions>
+{instructions} 
+</instructions>
+
+`);
+
     const loader = new TextLoader("src/documents/instruction.txt");
 
     const docs = await loader.load();
@@ -36,9 +44,7 @@ export const generate_prompt = async (input: string) => {
       prompt: input,
       instructions: docs[0].pageContent,
     });
-    
- 
-      
+console.log(data);
 
     return data;
   } catch (error) {
