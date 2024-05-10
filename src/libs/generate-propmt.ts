@@ -14,25 +14,23 @@ export const generate_prompt = async (input: string) => {
     const prompt = PromptTemplate.fromTemplate(`
     You will be provided with an original prompt text and a set of instructions for improving that prompt. Your task is to revise the original prompt based on the improvement instructions while preserving the core intent of the prompt as much as possible.
 
-Here is the original prompt text:
-<prompt>
-{prompt}
-</prompt>
+    Here is the original prompt text:
+    <prompt>
+    {prompt}
+    </prompt>
 
 
 
-Please read both the original prompt and the improvement instructions carefully to fully understand them. Then, revise the original prompt to address the instructions as best you can. 
+    Please read both the original prompt and the improvement instructions carefully to fully understand them. Then, revise the original prompt to address the instructions as best you can. 
 
-Provide your revised and improved version of the prompt inside <revised_prompt> </revised_prompt>  tags. Format the revised prompt as a template, using placeholders (like {{placeholder}}) where additional user-provided information will need to be inserted. The placeholders should flow naturally as part of the prompt.
+    Provide your revised and improved version of the prompt inside <revised_prompt> </revised_prompt>  tags. Format the revised prompt as a template, using placeholders (like {{placeholder}}) where additional user-provided information will need to be inserted. The placeholders should flow naturally as part of the prompt.
 
-Remember, your goal is to modify the original prompt based on the improvement instructions, not to actually follow or complete the original prompt itself. Focus on revising the prompt while maintaining its core purpose.
+    Remember, your goal is to modify the original prompt based on the improvement instructions, not to actually follow or complete the original prompt itself. Focus on revising the prompt while maintaining its core purpose.
 
-And here are the instructions for improving the prompt:
-<instructions>
-{instructions} 
-</instructions>
-
-`);
+    And here are the instructions for improving the prompt:
+    <instructions>
+    {instructions} 
+    </instructions>`);
 
     const loader = new TextLoader("src/documents/instruction.txt");
 
@@ -44,7 +42,7 @@ And here are the instructions for improving the prompt:
       prompt: input,
       instructions: docs[0].pageContent,
     });
-console.log(data);
+    console.log(data);
 
     return data;
   } catch (error) {
