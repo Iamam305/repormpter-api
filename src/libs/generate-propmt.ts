@@ -5,11 +5,11 @@ import { PromptTemplate } from "@langchain/core/prompts";
 export const generate_prompt = async (input: string) => {
   try {
     const model = new ChatAnthropic({
-      temperature: 0.9,
+      temperature: 0.9, 
       model: "claude-3-haiku-20240307",
       // In Node.js defaults to ,
       apiKey: process.env.ANTHROPIC_API_KEY,
-      maxTokens: 1024,
+      maxTokens: 200,
     });
     const prompt = PromptTemplate.fromTemplate(`
     Please read the given original prompt text carefully to fully understand its intent and content. Then review the instructions for improving the prompt in detail.

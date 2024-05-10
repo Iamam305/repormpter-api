@@ -2,6 +2,7 @@ import { Elysia, t } from "elysia";
 import { generate_prompt } from "./libs/generate-propmt";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
+import { rateLimit } from "elysia-rate-limit";
 
 class Logger {
   log(value: string) {
@@ -27,11 +28,14 @@ const app = new Elysia()
     },
     {
       body: t.Object({
-        input: t.String(),
+        input: t.String({
+          minLength: 25,
+        }),
       }),
     }
   )
-  .use(cors())
+  .use(rateLimit())
+  .use(cors()) 
   .listen(3000);
 
 console.log(
